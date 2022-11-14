@@ -8,6 +8,7 @@ import java.util.List;
 
 public class UserServiceImpl implements UserService {
 
+    // добавлен модификатор private
     private final UserDao dao = new UserDaoJDBCImpl();
 
     public void createUsersTable() {

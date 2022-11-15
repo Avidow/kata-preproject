@@ -5,7 +5,6 @@ import jm.task.core.jdbc.util.Util;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.tool.hbm2ddl.SchemaExport;
 
 import javax.persistence.PersistenceException;
 import java.util.Collections;
@@ -22,7 +21,9 @@ public class UserDaoHibernateImpl implements UserDao {
               PRIMARY KEY (`id`),
               UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE);
               """;
-    public static final String DROP_TABLE = "DROP TABLE IF EXISTS users";
+    private static final String DROP_TABLE = "DROP TABLE IF EXISTS users";
+    private static final String HQL_SELECT_ALL = "SELECT u FROM User u";
+    private static final String HQL_TRUNCATE_TABLE = "DELETE FROM User";
 
     private SessionFactory sessionFactory;
     private Session session;
@@ -80,7 +81,7 @@ public class UserDaoHibernateImpl implements UserDao {
     @Override
     public List<User> getAllUsers() {
         try {
-            return session.createQuery("SELECT u FROM User u", User.class).getResultList();
+            return session.createQuery(HQL_SELECT_ALL, User.class).getResultList();
         } catch (PersistenceException e) {
             // ignore
         }
@@ -92,7 +93,7 @@ public class UserDaoHibernateImpl implements UserDao {
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            session.createQuery("DELETE FROM User").executeUpdate();
+            session.createQuery(HQL_TRUNCATE_TABLE).executeUpdate();
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {

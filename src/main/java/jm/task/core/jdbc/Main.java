@@ -10,6 +10,7 @@ public class Main {
     public static void main(String[] args) {
         try (UserService table = new UserServiceImpl()) {
             table.createUsersTable();
+            table.getAllUsers().forEach(System.out::println);
             table.saveUser("Daniel", "Aviidow", (byte) 18);
             table.saveUser("Stan", "Ford", (byte) 55);
             table.saveUser("Stella", "Forger", (byte) 29);
@@ -19,7 +20,7 @@ public class Main {
             table.cleanUsersTable();
             table.dropUsersTable();
         } catch (Exception e) {
-            // ignore
+            e.printStackTrace();
         }
     }
 }

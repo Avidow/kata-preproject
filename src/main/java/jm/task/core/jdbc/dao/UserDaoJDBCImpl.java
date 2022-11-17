@@ -91,9 +91,4 @@ public class UserDaoJDBCImpl implements UserDao {
             System.out.println(e.getMessage());
         }
     }
-
-    @Override
-    public void close() throws Exception {
-        connection.close();
-    }
 }

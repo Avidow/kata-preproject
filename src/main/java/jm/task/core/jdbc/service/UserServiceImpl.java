@@ -9,7 +9,7 @@ import java.util.List;
 
 public class UserServiceImpl implements UserService {
 
-    UserDao dao = new UserDaoHibernateImpl();
+    private UserDao dao = new UserDaoHibernateImpl();
 
     public void createUsersTable() {
         dao.createUsersTable();
@@ -36,8 +36,4 @@ public class UserServiceImpl implements UserService {
         dao.cleanUsersTable();
     }
 
-    @Override
-    public void close() throws Exception {
-        dao.close();
-    }
 }
